@@ -1,6 +1,6 @@
 import { UserRepository } from '../repositories/userRepository';
 import { isValidEmail, isValidName, isValidpasswordHash } from '../helpers/validationHelper';
-import bcrypt from 'bcrypt'; // Importando bcrypt para hash de senha
+import bcrypt from 'bcrypt';
 
 export class AuthService {
   private userRepository: UserRepository;
@@ -9,7 +9,6 @@ export class AuthService {
     this.userRepository = new UserRepository();
   }
 
-  // Método para registrar um novo usuário
   async registerUser(name: string, email: string, password: string) {
     if (!isValidName(name)) {
       throw new Error('Nome inválido');
@@ -17,11 +16,10 @@ export class AuthService {
     if (!isValidEmail(email)) {
       throw new Error('Email inválido');
     }
-    if (!isValidpasswordHash(password)) { // Verifica a validade da senha
+    if (!isValidpasswordHash(password)) { a
       throw new Error('Senha inválida');
     }
 
-    // Gerar um hash para a senha
     const passwordHash = await bcrypt.hash(password, 10);
     return await this.userRepository.addUser(name, email, passwordHash); // Armazenar o usuário
   }
@@ -35,7 +33,7 @@ export class AuthService {
       throw new Error('Senha não pode ser vazia');
     }
 
-    // Recuperar o usuário pelo email
+
     const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
       throw new Error('Usuário não encontrado');
